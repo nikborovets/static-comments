@@ -1,6 +1,6 @@
 """Portable text-review comments service (FastAPI + SQLite).
 
-Drop this whole `comments-service/` folder into any project. It stores
+Drop this whole `static-comments/` folder into any project. It stores
 text-anchored review comments + threaded replies, serves the front-end widget
 at /widget.js, and exports everything to Markdown. No auth — intended for a
 private / VPN-only network. See README.md for wiring it into a page.

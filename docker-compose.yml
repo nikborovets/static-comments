@@ -1,18 +1,21 @@
-# Comments service — include this from a host project's compose, e.g.:
+# static-comments — include this from a host project's compose, e.g.:
 #
 #   include:
-#     - comments-service/docker-compose.yml
+#     - static-comments/docker-compose.yml
 #   services:
 #     my-site:
-#       depends_on: [comments-service]
+#       depends_on: [static-comments]
 #
 # ...or run it standalone with `docker compose up -d` from this folder and
 # uncomment the `ports` block below to reach it directly.
+#
+# On a shared host, override `image` / `container_name` from the parent compose
+# to avoid name collisions with other users.
 services:
-  comments-service:
+  static-comments:
     build: .
-    image: comments-service
-    container_name: comments-service
+    image: static-comments
+    container_name: static-comments
     restart: unless-stopped
     volumes:
       - comments-data:/data

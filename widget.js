@@ -1,8 +1,8 @@
 /*
- * widget.js — self-contained text-review widget (part of comments-service).
+ * widget.js — self-contained text-review widget (part of static-comments).
  *
  * Reviewers select text on any page, leave a comment; comments + threaded
- * replies are stored by the comments-service backend. A side panel lists all
+ * replies are stored by the static-comments backend. A side panel lists all
  * comments; hovering a card highlights the referenced fragment on the page.
  *
  * No external dependencies. Injects its own styles and DOM. The API base is

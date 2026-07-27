@@ -1,4 +1,4 @@
-# comments-service
+# static-comments
 
 Portable, self-contained **text-review commenting** for any static HTML page.
 Reviewers select text → leave a comment; comments + threaded replies are stored
@@ -14,11 +14,11 @@ This is a standalone, self-contained repo — drop it into any static-site
 project as a git submodule (or just copy the folder in as-is):
 
 ```bash
-git submodule add <this-repo-url> comments-service
+git submodule add git@github.com:nikborovets/static-comments.git static-comments
 ```
 
 ```
-comments-service/
+static-comments/
 ├── app.py              backend (FastAPI + SQLite), also serves the widget
 ├── widget.js           the front-end widget (served at /widget.js)
 ├── annotate.py         OPTIONAL build-time block annotator (see below)
@@ -57,12 +57,12 @@ comments-service/
 1. **Run the service** — from the host project's `docker-compose.yml`:
    ```yaml
    include:
-     - comments-service/docker-compose.yml
+     - static-comments/docker-compose.yml
    services:
      my-site:
        # ...your static server (e.g. nginx)...
        depends_on:
-         - comments-service
+         - static-comments
    ```
 2. **Proxy `/api/`** to it — paste `nginx.snippet.conf` into your `server { }`.
    Note the `^~` modifier: without it a `\.js$` regex location would swallow
@@ -99,7 +99,7 @@ Run it at build time on your page before serving, e.g. in your site's Dockerfile
 FROM python:3.12-slim AS annotate
 WORKDIR /src
 COPY your-site/ ./site/
-COPY comments-service/annotate.py .
+COPY static-comments/annotate.py .
 RUN python annotate.py site/index.html > site/index.annotated.html \
  && mv site/index.annotated.html site/index.html
 # ...then COPY --from=annotate the annotated site into your web server image
