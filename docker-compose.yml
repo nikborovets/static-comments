@@ -1,0 +1,37 @@
+# Comments service — include this from a host project's compose, e.g.:
+#
+#   include:
+#     - comments-service/docker-compose.yml
+#   services:
+#     my-site:
+#       depends_on: [comments-service]
+#
+# ...or run it standalone with `docker compose up -d` from this folder and
+# uncomment the `ports` block below to reach it directly.
+services:
+  comments-service:
+    build: .
+    image: comments-service
+    container_name: comments-service
+    restart: unless-stopped
+    volumes:
+      - comments-data:/data
+    environment:
+      # Shown as the H1 in the Markdown export.
+      COMMENTS_TITLE: "Комментарии ревью"
+      # File name printed in the export locator (matches the annotated page).
+      COMMENTS_SOURCE_FILE: "index.html"
+      # External path prefix (nginx proxies /api/ -> service). Lets /api/docs
+      # link correctly. Set to "" for a standalone deployment without a proxy.
+      COMMENTS_ROOT_PATH: "/api"
+      # CORS is OFF by default (same-origin proxy needs none). For a standalone
+      # cross-origin deployment, set an allow-list, e.g. "http://SERVER_IP:PORT"
+      # (or "*" on a fully trusted network). Leave empty behind a proxy.
+      # COMMENTS_CORS_ORIGINS: ""
+    # For standalone / no-reverse-proxy use, publish the port and point the
+    # widget <script src> at http://<host>:8000/widget.js (and set CORS above).
+    # ports:
+    #   - "8000:8000"
+
+volumes:
+  comments-data:
