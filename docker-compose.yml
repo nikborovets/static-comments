@@ -9,13 +9,16 @@
 # ...or run it standalone with `docker compose up -d` from this folder and
 # uncomment the `ports` block below to reach it directly.
 #
-# On a shared host, override `image` / `container_name` from the parent compose
-# to avoid name collisions with other users.
+# On a shared host, give the image/container a unique prefix by setting these in
+# the parent project's .env (redeclaring the service in the parent instead would
+# fail with "conflicts with imported resource" on older Compose):
+#   STATIC_COMMENTS_IMAGE=myprefix-static-comments
+#   STATIC_COMMENTS_CONTAINER=myprefix-static-comments
 services:
   static-comments:
     build: .
-    image: static-comments
-    container_name: static-comments
+    image: ${STATIC_COMMENTS_IMAGE:-static-comments}
+    container_name: ${STATIC_COMMENTS_CONTAINER:-static-comments}
     restart: unless-stopped
     volumes:
       - comments-data:/data

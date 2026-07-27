@@ -64,6 +64,13 @@ static-comments/
        depends_on:
          - static-comments
    ```
+   On a shared host, prefix the image/container names from the parent project's
+   `.env` (do **not** redeclare the service in the parent — older Compose fails
+   with `conflicts with imported resource`):
+   ```dotenv
+   STATIC_COMMENTS_IMAGE=myprefix-static-comments
+   STATIC_COMMENTS_CONTAINER=myprefix-static-comments
+   ```
 2. **Proxy `/api/`** to it — paste `nginx.snippet.conf` into your `server { }`.
    Note the `^~` modifier: without it a `\.js$` regex location would swallow
    `/api/widget.js` and serve a 404 from your static root.
